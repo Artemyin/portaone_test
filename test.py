@@ -2,10 +2,11 @@ import unittest
 import os
 from unittest.mock import patch
 from pathlib import Path
-from stats_count import calculate_statistic, main
-from unittest_parametrize import parametrize
-from unittest_parametrize import ParametrizedTestCase
 from argparse import Namespace
+
+from statistics_counter import calculate_statistic, main
+
+from unittest_parametrize import parametrize, ParametrizedTestCase
 
 
 class TestCalculateStatistic(ParametrizedTestCase):
@@ -14,22 +15,33 @@ class TestCalculateStatistic(ParametrizedTestCase):
         [
             (
                 [5, 1, 3, 4, 1],
-                {"maximum": 5, "minimum": 1, "average": 2.8, "mediana": 3,
-                 "increase_seq": 3, "decrease_seq": 2}
+                {
+                    "maximum": 5,
+                    "minimum": 1,
+                    "average": 2.8,
+                    "mediana": 3,
+                    "increase_seq": 3,
+                    "decrease_seq": 2,
+                },
             ),
             (
-                [2, 4, 6, 8], 
-                {"maximum": 8, "minimum": 2, "average": 5.0, "mediana": 5,
-                 "increase_seq": 4, "decrease_seq": 1}
+                [2, 4, 6, 8],
+                {
+                    "maximum": 8,
+                    "minimum": 2,
+                    "average": 5.0,
+                    "mediana": 5,
+                    "increase_seq": 4,
+                    "decrease_seq": 1,
+                },
             ),
         ],
         ids=["one", "two"],
     )
-    @patch('stats_count.get_data_stream')
-    @patch('stats_count.cast_to_int')
+    @patch("statistics_counter.get_data_stream")
+    @patch("statistics_counter.cast_to_int")
     def test_calculate_statistic(
-        self, mock_cast_to_int, mock_get_data_stream,
-        mock_data_stream, expected
+        self, mock_cast_to_int, mock_get_data_stream, mock_data_stream, expected
     ):
         mock_get_data_stream.return_value = mock_data_stream
 
@@ -48,10 +60,6 @@ class TestFileReading(ParametrizedTestCase):
     args.filename = "test_file.txt"
     args.skip = False
     args.show_time = False
-    
-    def setUp(self):
-        # Create a test file with expected content
-        pass
 
     def tearDown(self):
         # Clean up the test file
@@ -59,21 +67,25 @@ class TestFileReading(ParametrizedTestCase):
             os.remove("test_file.txt")
         except FileNotFoundError:
             print("file for test hasnt been created")
-   
+
     def test_raise_error_open_files(self):
         self.assertRaises(SystemExit, main, self.args)
 
     @parametrize(
         "file_content",
-        [
-            (b"",), (b"a\nb\nc",), (b"1\n\n2\n2",), (b"1,\n2",)
+        [(b"",), (b"a\nb\nc",), (b"1\n\n2\n2",), (b"1,\n2",)],
+        ids=[
+            "empty_file",
+            "without_digits",
+            "with_empty_strings",
+            "with_punctuation_mark",
         ],
-        ids=["empty_file", "without_digits", "with_empty_strings", "with_punctuation_mark"]
     )
     def test_raise_error_read_files(self, file_content):
         with open("test_file.txt", "wb") as f:
             f.write(file_content)
         self.assertRaises(SystemExit, main, self.args)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

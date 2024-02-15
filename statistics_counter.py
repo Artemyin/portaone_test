@@ -8,8 +8,7 @@ from pathlib import Path
 
 
 def data_stream_from_file(
-    file_name: Path,
-    processor: Callable
+    file_name: Path, processor: Callable
 ) -> Generator[bytes, None, None]:  # [yield, send, return]
     with processor(file_name, "rb") as f:
         for line in f:
@@ -17,7 +16,7 @@ def data_stream_from_file(
 
 
 def cast_to_int(data: bytes) -> int:
-    return int(data.decode('utf-8').strip())
+    return int(data.decode("utf-8").strip())
 
 
 def mediana(lst: List[int], length: int) -> int | float:
@@ -46,7 +45,7 @@ def sort_numbers(numbers_list: List[int]) -> List[int]:
 def find_cons_seq(changes: str) -> Generator[int | None, int | bool, None]:
     ops = {
         "increase": {"then": op.lt, "equal": op.ge},
-        "decrease": {"then": op.gt, "equal": op.le}
+        "decrease": {"then": op.gt, "equal": op.le},
     }
     highest_seq = 0
     current_seq = 0
@@ -69,9 +68,9 @@ def find_cons_seq(changes: str) -> Generator[int | None, int | bool, None]:
 
 
 def get_processor(filename: Path) -> Callable:
-    text_processors = {'.bz2': bz2.open, '.txt': open}
+    text_processors = {".bz2": bz2.open, ".txt": open}
     file_type = filename.suffix
-    processor = text_processors.get(file_type) or text_processors.get('.txt')
+    processor = text_processors.get(file_type) or text_processors.get(".txt")
     return processor
 
 
@@ -102,10 +101,10 @@ def calculate_statistic(filename: Path, skip: bool) -> dict:
         summ += number
         hi_gen.send(number)
         low_gen.send(number)
-        
+
     if not numbers_list:
         raise ValueError("empty file")
-    
+
     increase_seq = hi_gen.send(False)
     decrease_seq = low_gen.send(False)
     numbers_list = sort_numbers(numbers_list)
@@ -113,10 +112,13 @@ def calculate_statistic(filename: Path, skip: bool) -> dict:
     minimum = min_number(numbers_list)
     avg = average(summ, len(numbers_list))
     medn = mediana(numbers_list, len(numbers_list))
-
     result = {
-        "maximum": maximum, "minimum": minimum, "average": avg, "mediana": medn,
-        "increase_seq": increase_seq, "decrease_seq": decrease_seq
+        "maximum": maximum,
+        "minimum": minimum,
+        "average": avg,
+        "mediana": medn,
+        "increase_seq": increase_seq,
+        "decrease_seq": decrease_seq,
     }
     return result
 
@@ -151,7 +153,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(
-        prog='statistic counter',
+        prog="statistic counter",
         description="""
             This programm find the maximum & minimum number
             in the file,
@@ -159,24 +161,19 @@ if __name__ == "__main__":
             the largest increasing sequence,
             the largest decreasing sequence
         """,
-        epilog='Written by Artemii'
+        epilog="Written by Artemii",
     )
-
     parser.add_argument(
-        'filename',
-        help='file with set of integers,\
+        "filename",
+        help="file with set of integers,\
             tested only with .bz2 and .txt,\
-            but can consume other file types'
+            but can consume other file types",
     )
     parser.add_argument(
-        '-st', '--show_time',
-        action='store_true',
-        help='show execution timer'
+        "-st", "--show_time", action="store_true", help="show execution timer"
     )
     parser.add_argument(
-        '-s', '--skip',
-        action='store_true',
-        help='skip bad values in set'
+        "-s", "--skip", action="store_true", help="skip bad values in set"
     )
     args = parser.parse_args()
 
