@@ -1,6 +1,6 @@
+#!/usr/bin/python3.11
 import bz2
-from typing import Generator, List
-from collections.abc import Callable
+from typing import Generator, List, Callable
 import time
 import sys
 import operator as op
@@ -137,13 +137,13 @@ def main(args) -> None:
 
         print(f"Maximum value: {res.get('maximum')}")
         print(f"Minimum value: {res.get('minimum')}")
-        print(f"Average: {res.get('average'):.3f}")
+        print(f"Average: {res.get('average'):.1f}")
         print(f"Mediana: {res.get('mediana')}")
         print(f"Sequence that increase: {res.get('increase_seq')}")
         print(f"Sequence that decrease: {res.get('decrease_seq')}")
 
         if show_time:
-            print(f"Execution time is {execution_time:.3f}")
+            print(f"Execution time is {execution_time:.6f}")
     except Exception as e:
         print("Occur unexpected error: \n", e)
         sys.exit()
