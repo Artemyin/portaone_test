@@ -74,22 +74,18 @@ def get_processor(filename: Path) -> Callable:
     return processor
 
 
-def get_data_stream(filename):
+def get_data_stream(filename: Path) -> Generator:
     processor = get_processor(filename)
     return data_stream_from_file(filename, processor)
 
 
-def calculate_statistic(filename: Path, skip: bool) -> dict:
+def calculate_statistic(data_stream: Generator, skip: bool) -> dict:
     numbers_list = []
     summ = 0
     hi_gen = find_cons_seq("increase")
     low_gen = find_cons_seq("decrease")
     next(hi_gen)
     next(low_gen)
-    try:
-        data_stream = get_data_stream(filename)  # "10m.txt.bz2"
-    except OSError as e:
-        raise OSError(f"Cant open such file {filename}: ") from e
     for data in data_stream:
         try:
             number = cast_to_int(data)
@@ -131,7 +127,8 @@ def main(args) -> None:
     start_time = time.time()
 
     try:
-        res = calculate_statistic(filename, skip)
+        data_stream = get_data_stream(filename)  # "10m.txt.bz2"
+        res = calculate_statistic(data_stream, skip)
         end_time = time.time()
         execution_time = end_time - start_time
 
@@ -144,6 +141,9 @@ def main(args) -> None:
 
         if show_time:
             print(f"Execution time is {execution_time:.6f}")
+
+    except OSError as e:
+        raise OSError(f"Cant open such file {filename}: ") from e
     except Exception as e:
         print("Occur unexpected error: \n", e)
         sys.exit()
