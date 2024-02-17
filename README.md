@@ -44,7 +44,7 @@ $ export FILE=name_of_your_file
 $ docker run -v path/$FILE:/app/$FILE portaone:latest /app/$FILE
 ```
 
-**Important**: You must pass the absolute path to your document. As we want to pass an external document into a Docker image, we have to mount a volume to the Docker image with the desired document.
+**Important**: You must pass the absolute path to your document. We have to mount a volume to the Docker image with the desired document.
 
 ### Usage Instruction
 
