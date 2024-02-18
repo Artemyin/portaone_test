@@ -56,7 +56,7 @@ When you run the script without passing any argument, it will show you basic scr
 
 ```bash
 $ statistics_counter.py
-usage: statistic counter [-h] [-st] [-s] filename
+usage: statistic counter [-h] filename
 statistic counter: error: the following arguments are required: filename
 ```
 
@@ -64,7 +64,7 @@ To see detailed help, use the `-h` argument.
 
 ```bash
 $ statistics_counter.py -h
-usage: statistic counter [-h] [-st] [-s] filename
+usage: statistic counter [-h] filename
 
 This program finds the maximum & minimum number in the file, the median, average arithmetic,
 the largest increasing sequence, the largest decreasing sequence
@@ -75,8 +75,6 @@ positional arguments:
 
 options:
   -h, --help        show this help message and exit
-  -st, --show_time  show execution timer
-  -s, --skip        skip bad values in set
 
 Written by Artemii
 ```
