@@ -21,7 +21,7 @@ class TestCalculateStatistic(ParametrizedTestCase):
                     "maximum": 5,
                     "minimum": 1,
                     "average": 2.8,
-                    "mediana": 3,
+                    "mediana": 3.0,
                     "increase_seq": 3,
                     "decrease_seq": 2,
                 },
@@ -32,7 +32,7 @@ class TestCalculateStatistic(ParametrizedTestCase):
                     "maximum": 8,
                     "minimum": 2,
                     "average": 5.0,
-                    "mediana": 5,
+                    "mediana": 5.0,
                     "increase_seq": 4,
                     "decrease_seq": 1,
                 },
@@ -44,7 +44,7 @@ class TestCalculateStatistic(ParametrizedTestCase):
     def test_calculate_statistic(self, mock_cast_to_int, data_stream, expected):
         # Mock cast_to_int to return the same value
         mock_cast_to_int.side_effect = lambda x: x
-        actual_results = calculate_statistic(data_stream, True)
+        actual_results = calculate_statistic(data_stream)
         self.assertEqual(actual_results, expected)
 
 
@@ -52,8 +52,6 @@ class TestFileReading(ParametrizedTestCase):
     args = Namespace()
     # Set values for the attributes
     args.filename = "test_file.txt"
-    args.skip = False
-    args.show_time = False
 
     def tearDown(self):
         # Clean up the test file
@@ -84,9 +82,6 @@ class TestFileReading(ParametrizedTestCase):
 
 class TestMainFunction(unittest.TestCase):
     args = Namespace()
-    # Set values for the attributes
-    args.skip = False
-    args.show_time = False
 
     def test_main_function_open_bz2_output(self):
         # Data to be compressed
@@ -104,7 +99,7 @@ class TestMainFunction(unittest.TestCase):
             "Maximum value: 1\n"
             "Minimum value: 1\n"
             "Average: 1.0\n"
-            "Mediana: 1\n"
+            "Mediana: 1.0\n"
             "Sequence that increase: 1\n"
             "Sequence that decrease: 1"
         )
@@ -128,7 +123,7 @@ class TestMainFunction(unittest.TestCase):
             "Maximum value: 1\n"
             "Minimum value: 1\n"
             "Average: 1.0\n"
-            "Mediana: 1\n"
+            "Mediana: 1.0\n"
             "Sequence that increase: 1\n"
             "Sequence that decrease: 1"
         )

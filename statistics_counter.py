@@ -79,7 +79,7 @@ def get_data_stream(filename: Path) -> Generator:
     return data_stream_from_file(filename, processor)
 
 
-def calculate_statistic(data_stream: Generator, skip: bool) -> dict:
+def calculate_statistic(data_stream: Generator) -> dict:
     numbers_list = []
     summ = 0
     hi_gen = find_cons_seq("increase")
@@ -90,8 +90,7 @@ def calculate_statistic(data_stream: Generator, skip: bool) -> dict:
         try:
             number = cast_to_int(data)
         except ValueError as e:
-            if not skip:
-                raise ValueError(f"Cant process given value {data}:") from e
+            raise ValueError(f"Cant process given value {data}:") from e
 
         numbers_list.append(number)
         summ += number
@@ -121,16 +120,9 @@ def calculate_statistic(data_stream: Generator, skip: bool) -> dict:
 
 def main(args) -> None:
     filename = Path(args.filename)
-    skip = args.skip
-    show_time = args.show_time
-
-    start_time = time.time()
-
     try:
         data_stream = get_data_stream(filename)
-        res = calculate_statistic(data_stream, skip)
-        end_time = time.time()
-        execution_time = end_time - start_time
+        res = calculate_statistic(data_stream)
 
         print(f"Maximum value: {res.get('maximum')}")
         print(f"Minimum value: {res.get('minimum')}")
@@ -138,9 +130,6 @@ def main(args) -> None:
         print(f"Mediana: {res.get('mediana'):.1f}")
         print(f"Sequence that increase: {res.get('increase_seq')}")
         print(f"Sequence that decrease: {res.get('decrease_seq')}")
-
-        if show_time:
-            print(f"Execution time is {execution_time:.6f}")
 
     except OSError as e:
         raise OSError(f"Cant open such file {filename}: ") from e
@@ -168,12 +157,6 @@ if __name__ == "__main__":
         help="file with set of integers,\
             tested only with .bz2 and .txt,\
             but can consume other file types",
-    )
-    parser.add_argument(
-        "-st", "--show_time", action="store_true", help="show execution timer"
-    )
-    parser.add_argument(
-        "-s", "--skip", action="store_true", help="skip bad values in set"
     )
     args = parser.parse_args()
 

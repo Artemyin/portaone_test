@@ -83,20 +83,16 @@ Written by Artemii
 
 The script takes one positional argument `filename`, which could be a path to a file or a filename. The program works with files that have the format .txt or .bz2, but you can try to pass other file formats. 
 ```bash
-$ statistics_counter.py code/portaone/10m.txt.bz2 -st
+$ statistics_counter.py code/portaone/10m.txt.bz2
 Maximum value: 49999978
 Minimum value: -49999996
 Average: 7364.4
 Mediana: 25216
 Sequence that increase: 10
 Sequence that decrease: 11
-Execution time is 15.816892
 ```
+*Execution time is 15.816892 seconds*
 
-As you can see, I've added extra options:
-
-- `--show_time` or `-st` adds an extra line at the end of calculations that shows how much time the execution of the script took.
-- `--skip` or `-s` allows the script to skip values which can't be interpreted as integers and continue calculating without stopping the program.
 
 ## Implementation Details
 
@@ -253,6 +249,7 @@ def find_cons_seq(changes: str) -> Generator[int | None, int | bool, None]:
 ## Unit Tests
 
 Some unit tests have been added. 
+AI models was used while writing tests
 
 If you want to run them, you have to install the `unittest_parametrize` module:
 ```BASH
