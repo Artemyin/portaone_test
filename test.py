@@ -21,7 +21,7 @@ class TestCalculateStatistic(ParametrizedTestCase):
                     "maximum": 5,
                     "minimum": 1,
                     "average": 2.8,
-                    "mediana": 3,
+                    "mediana": 3.0,
                     "increase_seq": 3,
                     "decrease_seq": 2,
                 },
@@ -32,7 +32,7 @@ class TestCalculateStatistic(ParametrizedTestCase):
                     "maximum": 8,
                     "minimum": 2,
                     "average": 5.0,
-                    "mediana": 5,
+                    "mediana": 5.0,
                     "increase_seq": 4,
                     "decrease_seq": 1,
                 },
@@ -104,7 +104,7 @@ class TestMainFunction(unittest.TestCase):
             "Maximum value: 1\n"
             "Minimum value: 1\n"
             "Average: 1.0\n"
-            "Mediana: 1\n"
+            "Mediana: 1.0\n"
             "Sequence that increase: 1\n"
             "Sequence that decrease: 1"
         )
@@ -128,7 +128,7 @@ class TestMainFunction(unittest.TestCase):
             "Maximum value: 1\n"
             "Minimum value: 1\n"
             "Average: 1.0\n"
-            "Mediana: 1\n"
+            "Mediana: 1.0\n"
             "Sequence that increase: 1\n"
             "Sequence that decrease: 1"
         )
