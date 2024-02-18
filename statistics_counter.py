@@ -56,11 +56,11 @@ def find_cons_seq(changes: str) -> Generator[int | None, int | bool, None]:
             continue
         if not number and highest_seq:
             yield highest_seq
-        if prev_number and ops[changes]["then"](prev_number, number):
-            current_seq += 1
         if not prev_number:
             prev_number = number
-        if prev_number and ops[changes]["equal"](prev_number, number):
+        if ops[changes]["then"](prev_number, number):
+            current_seq += 1
+        if ops[changes]["equal"](prev_number, number):
             current_seq = 1
         if current_seq > highest_seq:
             highest_seq = current_seq
@@ -101,13 +101,13 @@ def calculate_statistic(data_stream: Generator, skip: bool) -> dict:
     if not numbers_list:
         raise ValueError("empty file")
 
-    increase_seq = hi_gen.send(False)
-    decrease_seq = low_gen.send(False)
     numbers_list = sort_numbers(numbers_list)
     maximum = max_number(numbers_list)
     minimum = min_number(numbers_list)
     avg = average(summ, len(numbers_list))
     medn = mediana(numbers_list, len(numbers_list))
+    increase_seq = hi_gen.send(False)
+    decrease_seq = low_gen.send(False)
     result = {
         "maximum": maximum,
         "minimum": minimum,
@@ -127,7 +127,7 @@ def main(args) -> None:
     start_time = time.time()
 
     try:
-        data_stream = get_data_stream(filename)  # "10m.txt.bz2"
+        data_stream = get_data_stream(filename)
         res = calculate_statistic(data_stream, skip)
         end_time = time.time()
         execution_time = end_time - start_time
@@ -135,7 +135,7 @@ def main(args) -> None:
         print(f"Maximum value: {res.get('maximum')}")
         print(f"Minimum value: {res.get('minimum')}")
         print(f"Average: {res.get('average'):.1f}")
-        print(f"Mediana: {res.get('mediana')}")
+        print(f"Mediana: {res.get('mediana'):.1f}")
         print(f"Sequence that increase: {res.get('increase_seq')}")
         print(f"Sequence that decrease: {res.get('decrease_seq')}")
 
