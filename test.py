@@ -63,7 +63,7 @@ class TestFileReading(ParametrizedTestCase):
             print("file for test hasnt been created")
 
     def test_raise_error_open_files(self):
-        self.assertRaises(SystemExit, main, self.args)
+        self.assertRaises(OSError, main, self.args)
 
     @parametrize(
         "file_content",
