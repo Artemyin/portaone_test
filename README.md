@@ -49,7 +49,8 @@ $ docker run -v path/$FILE:/app/$FILE artemyin/numbers-set-analyzer-app:v1.0 /ap
 
 **Important**: You must pass the absolute path to your document. We have to mount a volume to the Docker image with the desired document.
 
-### Usage Instruction
+## Usage Instruction
+
 
 When you run the script without passing any argument, it will show you basic script info and an error notice that a file is required.
 
