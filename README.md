@@ -15,7 +15,7 @@ This repository contains:
 - `test.py`: Unit tests that cover basic use cases.
 - `Dockerfile`: Instructions on how to build a Docker image.
 
-## Usage Instructions
+## Install Instructions
 
 ### Option 1
 
